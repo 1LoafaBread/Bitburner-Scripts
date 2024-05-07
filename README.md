@@ -1,5 +1,5 @@
 # Bitburner-Scripts
-Some useful Bitburner scripts that I made.
+Some useful Bitburner scripts for Bitburner NS2 that I made.
 
 The usage instructions of the scripts are provided below.
 
