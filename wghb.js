@@ -30,11 +30,13 @@ export async function main(ns) {
         return targetServers;
     }
 
-    async function attackServers(execServers, targetServers) {
+    async function attackServers(execServers, targetServers, attackType) {
         for (const serverToAttack of targetServers) {
             ns.tprint(`\n\x1b[32m[${getFormattedTime()}] -- Targeting Server: ${serverToAttack}\x1b[0m`);
 
-            for (const batchAttackType of ["weaken", "grow", "weaken", "hack"]) {
+            const attackSequence = attackType === "batch" ? ["weaken", "grow", "weaken", "hack"] : [attackType];
+
+            for (const batchAttackType of attackSequence) {
                 const preServerMoneyAvailable = ns.getServerMoneyAvailable(serverToAttack);
                 const preServerSecurityLevel = ns.getServerSecurityLevel(serverToAttack);
 
@@ -120,10 +122,10 @@ export async function main(ns) {
         const targetServers = await getTargetServers(ns.scan(ns.getHostname()), []);
 
         if (serverToAttack === "owned") {
-            await attackServers(ns.getPurchasedServers(), targetServers);
+            await attackServers(ns.getPurchasedServers(), targetServers, attackType);
         } else {
             const execServers = await getExecServers(ns.scan(ns.getHostname()), []);
-            await attackServers(execServers, targetServers);
+            await attackServers(execServers, targetServers, attackType);
         }
     } else if (mode === "target") {
         if (!serverToAttack) {
@@ -133,9 +135,9 @@ export async function main(ns) {
         const execServers = await getExecServers(ns.scan(ns.getHostname()), []);
 
         if (ownedServersOnly === "owned") {
-            await attackServers(ns.getPurchasedServers(), [serverToAttack]);
+            await attackServers(ns.getPurchasedServers(), [serverToAttack], attackType);
         } else {
-            await attackServers(execServers, [serverToAttack]);
+            await attackServers(execServers, [serverToAttack], attackType);
         }
     }
 
