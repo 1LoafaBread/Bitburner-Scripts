@@ -109,7 +109,7 @@ export async function main(ns) {
     const attackType = ns.args[0];
     const mode = ns.args[1];
     const serverToAttack = ns.args[2] || null;
-    const breadOnly = ns.args[3] || null;
+    const ownedServersOnly = ns.args[3] || null;
 
     if (!["weaken", "grow", "hack", "batch"].includes(attackType) || !["walk", "target"].includes(mode)) {
         ns.tprint(`Usage: wghb.js [weaken/grow/hack/batch] [walk/target] [if target then targetServer]`);
@@ -119,7 +119,7 @@ export async function main(ns) {
     if (mode === "walk") {
         const targetServers = await getTargetServers(ns.scan(ns.getHostname()), []);
 
-        if (serverToAttack === "bread") {
+        if (serverToAttack === "owned") {
             await attackServers(ns.getPurchasedServers(), targetServers);
         } else {
             const execServers = await getExecServers(ns.scan(ns.getHostname()), []);
@@ -132,7 +132,7 @@ export async function main(ns) {
         }
         const execServers = await getExecServers(ns.scan(ns.getHostname()), []);
 
-        if (breadOnly === "bread") {
+        if (ownedServersOnly === "owned") {
             await attackServers(ns.getPurchasedServers(), [serverToAttack]);
         } else {
             await attackServers(execServers, [serverToAttack]);
