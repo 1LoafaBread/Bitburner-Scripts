@@ -6,13 +6,13 @@ export async function main(ns) {
         }
 
         var serverNumber = 1;
-        while (ns.serverExists(`Bread${serverNumber}`)) {
+        while (ns.serverExists(`Server${serverNumber}`)) {
             serverNumber++;
         }
 
         for (var i = 1; i <= amtToPurchase; i++) {
-            ns.purchaseServer(`Bread${serverNumber}`, ramAmount);
-            ns.tprint(`Purchased Server With Hostname: Bread${serverNumber}`);
+            ns.purchaseServer(`Server${serverNumber}`, ramAmount);
+            ns.tprint(`Purchased Server With Hostname: Server${serverNumber}`);
             serverNumber++;
         }
         ns.tprint(`Purchased ${amtToPurchase} Servers for \$${((55000 * ramAmount) * amtCanPurchase).toLocaleString()}`)
